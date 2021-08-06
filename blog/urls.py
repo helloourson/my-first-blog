@@ -1,8 +1,9 @@
-from   django.urls import path
+from django.urls import path
 from . import views
 
 urlpatterns = [
     path('', views.post_list, name='post_list'),
+    path('post/<int:pk>/', views.post_detail, name='post_detail'),
 ]
 
 """ Wie du siehst, fügen wir nun eine view mit dem Namen post_list zur Root-URL hinzu.
