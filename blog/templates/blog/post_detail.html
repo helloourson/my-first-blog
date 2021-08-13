@@ -3,7 +3,9 @@
 {% block content %}
     <article class="post">
         <aside class="actions">
-          {% if user.is_authenticated  %} <!-- Editier-Button nur für eingeloggte user sichtbar machen -->
+          <!-- Editier-Button nur für eingeloggte user sichtbar machen -->
+          {% if user.is_authenticated  %}
+            <!-- Zeichenstift-Knopf einfügen -->
             <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">
                 {% include './blog/icons/pencil-fill.svg' %}
             </a>

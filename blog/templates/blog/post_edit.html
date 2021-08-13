@@ -2,9 +2,10 @@
 
 {% block content %}
     <h2>New post</h2>
-    <form method="POST" class="post-form">
+    <form method="POST" <!-- Methode POST wird gewählt --> class="post-form">
         {% csrf_token %} <!-- Macht Formular sicher -->
         {{ form.as_p }}
+        <!--Speicher-Knopf erzeugen -->
         <button type="submit" class="save btn btn-default">Save</button>
     </form>
 {% endblock %}

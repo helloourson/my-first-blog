@@ -21,17 +21,18 @@ def post_detail(request, pk):
 
 #Formular für neuen Blog
 def post_new(request):
-    if request.method == "POST": #Wenn
+    if request.method == "POST": #Wenn request-Methode "POST" ist diesen Code ausführen
         form = PostForm(request.POST) #PostForm nimmt die ausgefüllten Daten im Forumlar auf
         if form.is_valid() :
             post = form.save(commit=False) #Model hier noch nicht speichern
-            post.author = request.user
-            post.published_date = timezone.now()
+            post.author = request.user #Als Author wird angemeldeter user verwendet
+            post.published_date = timezone.now() #Das akutelle Datum, Uhrzeit wird verwendet
             post.save() #Formular abspeichern
             # Um zum neu erzeugten Detail-Blog zu gehen, wird post_detail view aufgerufen
             return redirect('post_detail', pk=post.pk)
 
-    else:
+    else: #Wenn Plus-Ikon angelickt wird soll dieser Code ausgefürht werden, request-Methode ist in diesem
+        # Fall nicht POST und ein leeres Formular soll angezeigt werden
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form':form})
 
@@ -42,9 +43,9 @@ def post_edit(request, pk):
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=False) #Model hier noch nicht speichern
-            post.author = request.user
-            post.published_date = timezone.now()
-            post.save() #Formular abspeichern
+            post.author = request.user #Authro automatisch hinzufügen, da user eingeloggt ist ist das möglich
+            post.published_date = timezone.now() #Aktuelles Datum und Uhrzeit hinzufügen
+            post.save() #Formular wird jeztz gespeichert
             # Um zum neu erzeugten Detail-Blog zu gehen, wird post_detail view aufgerufen
             return redirect('post_detail', pk=post.pk)
     else:
