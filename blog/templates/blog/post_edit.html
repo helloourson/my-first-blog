@@ -2,7 +2,7 @@
 
 {% block content %}
     <h2>New post</h2>
-    <form method="POST" <!-- Methode POST wird gewählt --> class="post-form">
+    <form method="POST" class="post-form"> <!-- Methode POST wird gewählt -->
         {% csrf_token %} <!-- Macht Formular sicher -->
         {{ form.as_p }}
         <!--Speicher-Knopf erzeugen -->

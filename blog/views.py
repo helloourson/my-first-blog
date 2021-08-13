@@ -8,11 +8,28 @@ from .forms import PostForm
 from django.shortcuts import redirect
 
 # Create your views here.
-
+#Listet alle Blogs auf
 def post_list(request):
     #QuerySet
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     return render(request, 'blog/post_list.html', {'posts': posts})
+
+#Listet all nicht veröffentlichte Blogs aufruft
+def post_draft_list(request):
+    posts= Post.objects.filter(published_date__isnull=True).order_by('created_date')
+    return render(request, 'blog/post_draft_list.html', {'posts': posts})
+
+#Blogpost soll veröffentlicht werden
+def post_publish(request, pk):
+    post=get_object_or_404(Post, pk=pk)
+    post.publish()
+    return redirect('post_detail', pk=pk)
+    
+#Ein Blogpost-Eintrag soll gelöscht werden
+def post_remove(request, pk):
+    post= get_object_or_404(Post, pk=pk)
+    post.delete()
+    return redirect('post_list')
 
 #Detail Blog ansehen
 def post_detail(request, pk):
@@ -26,7 +43,7 @@ def post_new(request):
         if form.is_valid() :
             post = form.save(commit=False) #Model hier noch nicht speichern
             post.author = request.user #Als Author wird angemeldeter user verwendet
-            post.published_date = timezone.now() #Das akutelle Datum, Uhrzeit wird verwendet
+            # post.published_date = timezone.now() #Das akutelle Datum, Uhrzeit wird verwendet
             post.save() #Formular abspeichern
             # Um zum neu erzeugten Detail-Blog zu gehen, wird post_detail view aufgerufen
             return redirect('post_detail', pk=post.pk)
@@ -44,7 +61,7 @@ def post_edit(request, pk):
         if form.is_valid():
             post = form.save(commit=False) #Model hier noch nicht speichern
             post.author = request.user #Authro automatisch hinzufügen, da user eingeloggt ist ist das möglich
-            post.published_date = timezone.now() #Aktuelles Datum und Uhrzeit hinzufügen
+            # post.published_date = timezone.now() #Aktuelles Datum und Uhrzeit hinzufügen
             post.save() #Formular wird jeztz gespeichert
             # Um zum neu erzeugten Detail-Blog zu gehen, wird post_detail view aufgerufen
             return redirect('post_detail', pk=post.pk)

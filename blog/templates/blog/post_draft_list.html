@@ -1,0 +1,15 @@
+
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    {% for post in posts %}
+        <article class="post">
+            <p class="date">created: {{ post.created_date|date:'d-m-y' }}</p>
+            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+            <!-- truncatechars verkürzt einen Blogtex auf max. 200 Zeichen -->
+            <p>{{ post.text|truncatechars:200 }}</p>
+            <p>{{ post.created_date|linebreaksbr }}</p>
+            <p>*******************************************</p>
+        </article>
+    {% endfor %}
+{%  endblock %}

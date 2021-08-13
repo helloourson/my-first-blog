@@ -9,6 +9,11 @@
             <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">
                 {% include './blog/icons/pencil-fill.svg' %}
             </a>
+            <!-- Knopf für Delete erzeugen -->
+            <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span>
+                {% include './blog/icons/file-x.svg' %}
+            </a>
+
           {% endif %}
         </aside>
         <!-- Prüfung ob post.publish_date Feld nicht leer ist -->
@@ -16,7 +21,12 @@
             <time class="date">
                 {{ post.published_date }}
             </time>
+        <!-- Wenn post.publish_date-Feld leer ist, dann ist es erst ein Entwurf,
+        dann soll ein Publish-Knopf einblenden werden  -->
+        {% else %}
+              <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
         {% endif %}
+
         <h2>{{ post.title }}</h2>
         <p>{{ post.text|linebreaksbr }}</p>
         <p>{{ post.created_date | linebreaksbr}}</p>

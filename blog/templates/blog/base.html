@@ -16,6 +16,11 @@
               <a href="{% url 'post_new' %}" class="top-menu">
                 {% include './blog/icons/file-earmark-plus.svg' %}
               </a>
+              <!-- Knopf für unveröffentlichte Posts aufzurufen -->
+              <a href="{% url 'post_draft_list' %}" class="top-menu">
+                  <span class="glyphicon glyphicon-edit"></span>
+                  {% include './blog/icons/pencil-square.svg' %}
+              </a>
             {% endif %}
               <h1><a href="/">Django Girls Blog</a></h1>
           </div>
